@@ -1,24 +1,36 @@
-# LiveChat
+# TgLiveChat
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+Angular live chat component
+## Install
 
-## Code scaffolding
+npm install tg-live-chat
 
-Run `ng generate component component-name --project live-chat` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project live-chat`.
-> Note: Don't forget to add `--project live-chat` or else it will be added to the default project in your `angular.json` file. 
+## Import
 
-## Build
+> import {LiveChatModule} from "live-chat";
 
-Run `ng build live-chat` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Getting Started
 
-## Publishing
+> <tg-live-chat [headerInfo]="headerInfo" [users]="chatUsers" [messages]="messages"
+(loadMore)="loadMore()"
+(send)="sendMessage($event)"
+(open)="open()"
+(close)="close()"></tg-live-chat>
 
-After building your library with `ng build live-chat`, go to the dist folder `cd dist/live-chat` and run `npm publish`.
+## Properties
 
-## Running unit tests
+| Name       | Type   | Description                                         |
+|------------|--------|-----------------------------------------------------|
+| headerInfo | Object | Information in chat header. Interface - HeaderInfo. |
+| users      | Array  | Chat users. Interface - ChatUser.                   |
+| messages   | Array  | Chat messages. Interface - Message.                 |
 
-Run `ng test live-chat` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Events
 
-## Further help
+| Name     | Description                                                                     |
+|----------|---------------------------------------------------------------------------------|
+| loadMore | Event emitting when reached top the chat. Use for load parts of older messages. |
+| send     | Event emitting send message.                                                    |
+| open     | Event emitting open dialog.                                                     |
+| close    | Event emitting close dialog.                                                    |
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
