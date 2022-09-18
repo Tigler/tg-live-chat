@@ -14,7 +14,6 @@ export class ResizeDirective implements OnInit {
     if (this.tgResize) {
       let initHeight = this.el.nativeElement.offsetHeight;
       new ResizeObserver((data) => {
-        console.log(initHeight)
         // @ts-ignore
         this.el.nativeElement.style.height = initHeight - data[0].target.offsetHeight + 'px';
       }).observe(this.tgResize);

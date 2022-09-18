@@ -84,7 +84,7 @@ $secondary-color: #3c4043;
   &__chat-control {
     position: relative;
     min-height: 2rem;
-    max-height: 8rem;
+    max-height: 12rem;
     height: auto;
     background: #EFEFEF;
     border-top: 1px solid #CCCCCC;
@@ -97,25 +97,25 @@ $secondary-color: #3c4043;
   display: flex;
   align-items: center;
 
-  &__companion-info {
+  &__info {
 
   }
 
-  &__companion-logo {
+  &__logo {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
     margin-right: 1rem;
   }
 
-  &__companion-name {
+  &__name {
     font-size: 1.7rem;
     color: white;
   }
 
   &__secondary-info {
     font-size: 1rem;
-    color: #CCCCCC;
+    color: white;
   }
 }
 
@@ -155,11 +155,16 @@ $secondary-color: #3c4043;
 
     &--self {
       justify-content: end;
+      flex-direction: row-reverse;
     }
 
     &--another {
       justify-content: start;
     }
+  }
+
+  &__attachment-content {
+    display: flex;
   }
 
   &__attachment {
@@ -171,7 +176,7 @@ $secondary-color: #3c4043;
     min-height: 2rem;
     padding: 0.25rem;
     border-radius: 0.25rem;
-    display: flex;
+
 
     a {
       color: unset;
@@ -218,22 +223,42 @@ $secondary-color: #3c4043;
     border-radius: 0.25rem;
   }
 
+  &__avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin: 0 0.25rem;
+  }
+
+  &__message-author {
+    position: relative;
+    width: auto;
+    font-weight: 700;
+  }
+
+  &__attachment-author {
+    position: relative;
+    width: auto;
+    font-weight: 700;
+  }
+
   &__message {
     position: relative;
     width: auto;
-    max-width: 80%;
+    max-width: 70%;
     min-width: 3rem;
     height: auto;
     min-height: 2rem;
     padding: 0.25rem;
     border-radius: 0.25rem;
+    word-wrap: break-word;
 
 
     &--self {
       background: $main-color;
       color: white;
       margin-right: 0.5rem;
-      padding-right: 2.5rem;
+      padding-right: 3.5rem;
 
 
       &:after {
@@ -253,7 +278,7 @@ $secondary-color: #3c4043;
       background: $secondary-color;
       color: white;
       margin-left: 0.5rem;
-      padding-right: 2.5rem;
+      padding-right: 3.5rem;
 
       &:before {
         content: "";
@@ -339,6 +364,40 @@ $secondary-color: #3c4043;
     svg {
       width: 40%;
       color: white;
+    }
+  }
+
+  &__attachments {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    max-height: 5rem;
+    overflow-y: auto;
+  }
+
+  &__attachment {
+    display: flex;
+    align-items: center;
+    border: 1px solid #CCC;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    margin: 0.25rem;
+  }
+
+  &__attachment-delete {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    cursor: pointer;
+
+    svg {
+      border-radius: 50%;
+      background: red;
+      color: white;
+      width: 1rem;
+      height: 1rem;
     }
   }
 }

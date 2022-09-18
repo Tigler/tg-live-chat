@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Message} from "./model/message";
-import {ChatUser} from "./model/chat-user";
-import {SendingMessage} from "./model/sending-message";
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Message} from "./models/message";
+import {ChatUser} from "./models/chat-user";
+import {SendingMessage} from "./models/sending-message";
+import {HeaderInfo} from "./models/header-info";
 
 @Component({
   selector: 'tg-live-chat',
@@ -11,79 +12,23 @@ import {SendingMessage} from "./model/sending-message";
 export class LiveChatComponent implements OnInit {
 
   private CURRENT_YEAR = new Date().getFullYear();
-  isOpened: boolean = true;
-  @Input() placeholderEditor = 'Message';
-  chatUser = {
-    logoUrl: 'https://sun4-15.userapi.com/znUVrn03HYl3Iw0O_m-N5ht2kMtmcFb8I3HBiQ/hciP6yRUk08.png',
-    name: 'Иванов Иван'
-  };
+  isOpened: boolean = false;
+  messageContent: string = '';
+  files: File[] = [];
 
-  @Input() messages: Message[] = [
-    {idUser: 1, date: new Date(new Date().getTime() + 1000000), text: 'Message sdfsdf ssssss sdfsdfs sdfsfsdfsfsdsf'},
-    {idUser: 2, date: new Date(new Date().getTime() + 10000000), text: 'Message1 sdfsdf sdfjkjsdf ', self: true},
-    {idUser: 1, date: new Date(new Date().getTime() - 100000000000), text: 'Message2 dsfsdf'},
-    {
-      idUser: 2,
-      date: new Date(),
-      text: 'Message3 sdfsf sdfsfsf sdfsdf sdfsdf sdfsdfgd dfgdfgdfg dfgdfgdfgdfg dfgdfgdfgdf sdfsd',
-      self: true
-    },
-    {idUser: 1, date: new Date(), text: 'Message4ddd'},
-    {idUser: 1, date: new Date(), text: 'Message sdfsdf ssssss sdfsdfs sdfsfsdfsfsdsf'},
-    {idUser: 2, date: new Date(), text: 'Message1 sdfsdf sdfjkjsdf ', self: true},
-    {idUser: 1, date: new Date(new Date().getTime() + 1000000000), text: 'Message2 dsfsdf'},
-    {
-      idUser: 2,
-      date: new Date(),
-      text: 'Message3 sdfsf sdfsfsf sdfsdf sdfsdf sdfsdfgd dfgdfgdfg dfgdfgdfgdfg dfgdfgdfgdf sdfsd',
-      self: true
-    },
-    {idUser: 1, date: new Date(), text: 'Message4ddd',
-      attachments: [
-        {url: 'localhost', name: 'fileName', ext: 'pdf'}
-      ], self: true},
-    {idUser: 1, date: new Date(), text: 'Message sdfsdf ssssss sdfsdfs sdfsfsdfsfsdsf'},
-    {idUser: 2, date: new Date(), text: 'Message1 sdfsdf sdfjkjsdf ', self: true},
-    {idUser: 1, date: new Date(), text: 'Message2 dsfsdf'},
-    {
-      idUser: 2,
-      date: new Date(),
-      text: 'Message3 sdfsf sdfsfsf sdfsdf sdfsdf sdfsdfgd dfgdfgdfg dfgdfgdfgdfg dfgdfgdfgdf sdfsd',
-      self: true
-    },
-    {idUser: 1, date: new Date(), text: 'Message4ddd'},
-    {idUser: 1, date: new Date(), text: 'Message sdfsdf ssssss sdfsdfs sdfsfsdfsfsdsf'},
-    {idUser: 2, date: new Date(), text: 'Message1 sdfsdf sdfjkjsdf ', self: true},
-    {idUser: 1, date: new Date(), text: 'Message2 dsfsdf'},
-    {
-      idUser: 2,
-      date: new Date(),
-      text: 'Message3 sdfsf sdfsfsf sdfsdf sdfsdf sdfsdfgd dfgdfgdfg dfgdfgdfgdfg dfgdfgdfgdf sdfsd',
-      self: true
-    },
-    {idUser: 1, date: new Date(), text: 'Message4ddd'},
-    {idUser: 1, date: new Date(), text: 'Message sdfsdf ssssss sdfsdfs sdfsfsdfsfsdsf'},
-    {idUser: 2, date: new Date(), text: 'Message1 sdfsdf sdfjkjsdf ', self: true},
-    {idUser: 1, date: new Date(), text: 'Message2 dsfsdf'},
-    {
-      idUser: 2,
-      date: new Date(),
-      text: 'Message3 sdfsf sdfsfsf sdfsdf sdfsdf sdfsdfgd dfgdfgdfg dfgdfgdfgdfg dfgdfgdfgdf sdfsd',
-      self: true
-    },
-    {idUser: 1, date: new Date(), text: 'Message4ddd'}
-  ];
-  @Input() users: ChatUser[] = [
-    {
-      id: 1,
-      logoUrl: 'https://sun4-15.userapi.com/znUVrn03HYl3Iw0O_m-N5ht2kMtmcFb8I3HBiQ/hciP6yRUk08.png',
-      name: 'Иванов Иван'
-    }
-  ];
+  @Input() placeholderEditor = 'Message';
+  @Input() isChat = true;
+  @Input() headerInfo: HeaderInfo | undefined;
+  @Input() messages: Message[] = [];
+  @Input() users: ChatUser[] = [];
 
   @Output() loadMore = new EventEmitter();
   @Output() send = new EventEmitter<SendingMessage>();
-  messageContent: string | null = null;
+  @Output() open = new EventEmitter();
+  @Output() close = new EventEmitter();
+
+  @ViewChild('inputFiles') inputFiles: any;
+
 
   constructor() {
   }
@@ -94,22 +39,19 @@ export class LiveChatComponent implements OnInit {
   }
 
   scrollMessages($event: any) {
-    if ($event.target.offsetHeight - $event.target.scrollTop >= $event.target.scrollHeight) {
+    if (Math.ceil($event.target.offsetHeight - $event.target.scrollTop) >= $event.target.scrollHeight) {
       this.loadMore.emit();
     }
   }
 
   editorKeydown($event: KeyboardEvent, editor: any) {
     if ($event.ctrlKey && $event.key == 'Enter') {
-       document.execCommand('insertLineBreak');
-       editor.scrollTop = editor.scrollHeight;
+      document.execCommand('insertLineBreak');
+      editor.scrollTop = editor.scrollHeight;
       return false;
     } else if ($event.key == 'Enter') {
-      if (this.messageContent) {
-        this.send.emit({message: this.messageContent});
-        editor.innerHTML = '';
-        return false;
-      }
+      this.sendMessage(editor);
+      return false;
     }
     return true;
   }
@@ -117,6 +59,10 @@ export class LiveChatComponent implements OnInit {
 
   inputMessage($event: any) {
     this.messageContent = $event.target.innerText;
+  }
+
+  findAuthor(idUser: any) {
+    return this.users.find(v => v.id == idUser);
   }
 
   nextDate(curDate: Date, nextDate: Date | undefined) {
@@ -131,5 +77,35 @@ export class LiveChatComponent implements OnInit {
 
   isCurrentYear(dateNext: Date) {
     return dateNext.getFullYear() == this.CURRENT_YEAR;
+  }
+
+  sendMessage(editor: any) {
+    if (this.messageContent || (this.files && this.files.length > 0)) {
+      this.send.emit({message: this.messageContent, files: this.files});
+      editor.innerHTML = '';
+      this.messageContent = '';
+      this.files = [];
+      this.inputFiles.nativeElement.value = null;
+    }
+  }
+
+  uploadFiles($event: any) {
+    for (const file of $event.target.files) {
+      this.files.push(file);
+    }
+  }
+
+  deleteAttachment(i: number) {
+    this.files.splice(i, 1);
+  }
+
+  openDialog() {
+    this.isOpened = true;
+    this.open.emit();
+  }
+
+  closeDialog(){
+    this.isOpened = false;
+    this.close.emit();
   }
 }

@@ -1,1 +1,7 @@
-<tg-live-chat (loadMore)="loadMore()" (send)="sendMessage($event)"></tg-live-chat>
+<tg-live-chat [headerInfo]="headerInfo"
+              [users]="chatUsers"
+              [messages]="messages"
+              (loadMore)="loadMore()"
+              (send)="sendMessage($event)"
+              (open)="open()"
+              (close)="close()"></tg-live-chat>

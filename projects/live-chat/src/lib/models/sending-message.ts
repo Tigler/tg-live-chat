@@ -1,4 +1,4 @@
 export interface SendingMessage {
-  message: string;
+  message?: string;
   files?: File[];
 }
