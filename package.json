@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "ng build live-chat --configuration=production && cd dist/live-chat && npm pack && npm publish"
   },
   "private": true,
   "dependencies": {
