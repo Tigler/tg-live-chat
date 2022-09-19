@@ -1,6 +1,7 @@
 {
   "name": "tg-live-chat",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "repository":"https://github.com/Tigler/tg-live-chat",
   "peerDependencies": {
     "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0"
