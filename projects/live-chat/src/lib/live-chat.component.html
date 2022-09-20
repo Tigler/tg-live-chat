@@ -86,7 +86,7 @@
 
     <div #control class="tg-live-chat__chat-control">
       <div class="chat-control__message">
-        <div class="chat-control__clip" (click)="inputFiles.click()">
+        <div *ngIf="showAttachmentsButton" class="chat-control__clip" (click)="inputFiles.click()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
             <path fill="currentColor"
@@ -95,6 +95,7 @@
         </div>
         <input #inputFiles id="file" style="display: none" type="file" (change)="uploadFiles($event)" multiple>
         <div #editor id="editor" class="chat-control__editor"
+             [ngClass]="{'chat-control__editor--long': !showAttachmentsButton}"
              contenteditable="true"
              [attr.placeholder]="placeholderEditor"
              (input)="inputMessage($event)"

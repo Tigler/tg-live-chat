@@ -341,6 +341,10 @@ $secondary-color: #3c4043;
       color: #555;
     }
 
+    &--long {
+      width: 90%;
+    }
+
     //&[placeholder]:empty:focus::before {
     //  content: "";
     //}

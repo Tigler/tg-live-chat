@@ -1,6 +1,7 @@
 # TgLiveChat
 
 Angular live chat component
+
 ## Install
 
 npm install tg-live-chat
@@ -19,11 +20,14 @@ npm install tg-live-chat
 
 ## Properties
 
-| Name       | Type   | Description                                         |
-|------------|--------|-----------------------------------------------------|
-| headerInfo | Object | Information in chat header. Interface - HeaderInfo. |
-| users      | Array  | Chat users. Interface - ChatUser.                   |
-| messages   | Array  | Chat messages. Interface - Message.                 |
+| Name                   | Type      | Description                                                            |
+|------------------------|-----------|------------------------------------------------------------------------|
+| headerInfo             | Object    | Information in chat header. Interface - HeaderInfo.                    |
+| users                  | Array     | Chat users. Interface - ChatUser.                                      |
+| messages               | Array     | Chat messages. Interface - Message.                                    |
+| showAttachmentsButton  | Boolean   | Show clip attachment button.                                       |
+| placeholderEditor      | String    | Text palceholder editor. Default "Message".                            |
+| isChat                 | Boolean   | If value is true when show avatars. Use when users > 2. Default false. |
 
 ## Events
 

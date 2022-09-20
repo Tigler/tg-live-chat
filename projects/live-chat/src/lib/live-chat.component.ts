@@ -16,8 +16,9 @@ export class LiveChatComponent implements OnInit {
   messageContent: string = '';
   files: File[] = [];
 
+  @Input() showAttachmentsButton = true;
   @Input() placeholderEditor = 'Message';
-  @Input() isChat = true;
+  @Input() isChat = false;
   @Input() headerInfo: HeaderInfo | undefined;
   @Input() messages: Message[] = [];
   @Input() users: ChatUser[] = [];
